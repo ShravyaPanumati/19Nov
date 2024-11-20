@@ -63,31 +63,29 @@ creation_rules:
     # Specify any file patterns you want to auto-encrypt
     path_regex: '.*\.yaml$'
     encrypted_regex: '^(data)$'
-
+```
 Provide the gcp-kms from any cloud/service you use.
 
-- To encrypt:
+Encrypt, Edit, Decrypt, and Apply Secrets with sops
+You can use sops to securely manage your Kubernetes secrets. Follow these steps:
+
+1. Encrypt a Secrets File
+To encrypt a plain secrets.yaml file:
 ```
 sops --encrypt secrets.yaml > secrets.enc.yaml
 ```
-
-- To edit:
+2. Edit the Encrypted Secrets
+To safely edit the encrypted secrets.enc.yaml file:
 ```
 sops secrets.enc.yaml
 ```
-
-- To decrypt:
+3. Decrypt the Encrypted Secrets
+To decrypt the file back into plaintext (for inspection or debugging):
 ```
 sops -d secrets.enc.yaml > secrets.yaml
 ```
-
-- Create Secret resource
+4. Create a Secret Resource in Kubernetes
+To apply the encrypted secrets directly to your Kubernetes cluster:
 ```
 sops -d secrets.enc.yaml | kubectl apply -f -
 ```
-
-
-
-
-
-
