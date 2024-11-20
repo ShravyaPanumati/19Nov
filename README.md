@@ -18,5 +18,16 @@ docker tag flaskapp:latest Dockerhubusername/flaskapp:latest
 
 docker push Dockerhubusername/flaskapp:latest
 
-Provide the repository of the image in deploy.yaml
+Provide the repository of the image in FLask deploy.yaml. 
+
+Create 3 namespaces for 3 components and deploy them into a K8s cluster
+Create manifest files for deployment, service, comfigMap, secrets for each component.
+
+Apply all manifests to the cluster: Consider flask app as example. The commands used are as follows
+
+kubectl apply -f flask-namespace.yaml
+
+kubectl apply -f flask-configmap-secret.yaml
+
+kubectl apply -f deploy.yaml
 
