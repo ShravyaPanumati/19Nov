@@ -51,6 +51,42 @@ http://ExternalIP/cache will provide the Redis Cache service
 
 
 
+I had used SOPS to encrypt the secrets by providing key ring from google cloud.
+
+Install SOPS and verify the installation by checking the version: sops -v
+
+- Create SOPS configuration file .sops.yaml
+```
+# .sops.yaml
+creation_rules:
+  - gcp_kms: projects/<project>/locations/<location>/keyRings/<key-ring-name>/cryptoKeys/<key-name>
+    # Specify any file patterns you want to auto-encrypt
+    path_regex: '.*\.yaml$'
+    encrypted_regex: '^(data)$'
+
+Provide the gcp-kms from any cloud/service you use.
+
+- To encrypt:
+```
+sops --encrypt secrets.yaml > secrets.enc.yaml
+```
+
+- To edit:
+```
+sops secrets.enc.yaml
+```
+
+- To decrypt:
+```
+sops -d secrets.enc.yaml > secrets.yaml
+```
+
+- Create Secret resource
+```
+sops -d secrets.enc.yaml | kubectl apply -f -
+```
+
+
 
 
 
